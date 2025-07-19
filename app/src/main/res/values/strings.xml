@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RemoteControl</string>
+    <string name="title_remote">Smart Remote</string>
+    <string name="scan_device">Scan Devices</string>
+    <string name="scanning">Scanning...</string>
+    <string name="found_devices">Found Devices:</string>
+    <string name="no_device">No devices found\nPlease make sure ADB WiFi debugging is enabled on your TV</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="ok">OK</string>
+    <string name="confirm">OK</string>
+</resources>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">智能遥控器</string>
+    <string name="title_remote">智能遥控器</string>
+    <string name="scan_device">扫描设备</string>
+    <string name="scanning">扫描中...</string>
+    <string name="found_devices">发现的设备:</string>
+    <string name="no_device">未发现设备\n请确保电视已开启ADB WLAN调试</string>
+    <string name="disconnect">断开</string>
+    <string name="ok">确定</string>
+    <string name="confirm">确定</string>
+</resources>
