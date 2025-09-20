@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,9 +41,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -144,7 +145,10 @@ fun TopStatusBar(uiState: RemoteUiState, viewModel: RemoteViewModel, context: Co
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                 ) {
-                    Icon(Icons.Default.Close, contentDescription = stringResource(id = R.string.disconnect))
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = stringResource(id = R.string.disconnect)
+                    )
                     Spacer(modifier = Modifier.width(4.dp))
                     Text(stringResource(id = R.string.disconnect))
                 }
@@ -186,7 +190,10 @@ fun DeviceScanInterface(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(stringResource(id = R.string.scanning))
             } else {
-                Icon(Icons.Default.Search, contentDescription = stringResource(id = R.string.scan_device))
+                Icon(
+                    Icons.Default.Search,
+                    contentDescription = stringResource(id = R.string.scan_device)
+                )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(stringResource(id = R.string.scan_device))
             }
@@ -291,11 +298,13 @@ fun RemoteControlInterface(viewModel: RemoteViewModel) {
             RemoteButton(
                 icon = FontAwesomeIcons.Solid.PowerOff, // Power off
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_POWER) },
+                onLongClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_POWER, longPress = true) },
                 modifier = Modifier.size(60.dp),
             )
             RemoteButton(
                 icon = FontAwesomeIcons.Solid.VolumeMute, // Mute
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_MUTE) },
+                onLongClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_MUTE, longPress = true) },
                 modifier = Modifier.size(60.dp),
             )
         }
@@ -306,6 +315,7 @@ fun RemoteControlInterface(viewModel: RemoteViewModel) {
             RemoteButton(
                 icon = FontAwesomeIcons.Solid.AngleUp,
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_UP) },
+                onLongClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_UP, longPress = true) },
                 modifier = Modifier.size(60.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -316,16 +326,29 @@ fun RemoteControlInterface(viewModel: RemoteViewModel) {
                 RemoteButton(
                     icon = FontAwesomeIcons.Solid.AngleLeft,
                     onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_LEFT) },
+                    onLongClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_LEFT, longPress = true) },
                     modifier = Modifier.size(60.dp)
                 )
                 RemoteButton(
                     text = stringResource(id = R.string.ok),
                     onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_ENTER) },
+                    onLongClick = {
+                        viewModel.sendKeyEvent(
+                            RemoteKeys.KEY_ENTER,
+                            longPress = true
+                        )
+                    },
                     modifier = Modifier.size(60.dp),
                 )
                 RemoteButton(
                     icon = FontAwesomeIcons.Solid.AngleRight,
                     onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_RIGHT) },
+                    onLongClick = {
+                        viewModel.sendKeyEvent(
+                            RemoteKeys.KEY_RIGHT,
+                            longPress = true
+                        )
+                    },
                     modifier = Modifier.size(60.dp)
                 )
             }
@@ -333,6 +356,7 @@ fun RemoteControlInterface(viewModel: RemoteViewModel) {
             RemoteButton(
                 icon = FontAwesomeIcons.Solid.AngleDown,
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_DOWN) },
+                onLongClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_DOWN, longPress = true) },
                 modifier = Modifier.size(60.dp)
             )
         }
@@ -343,16 +367,19 @@ fun RemoteControlInterface(viewModel: RemoteViewModel) {
             RemoteButton(
                 icon = FontAwesomeIcons.Solid.AngleLeft,
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_BACK) },
+                onLongClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_BACK, longPress = true) },
                 modifier = Modifier.size(60.dp),
             )
             RemoteButton(
                 icon = FontAwesomeIcons.Solid.Home,
                 onClick = { viewModel.sendShellCommand(RemoteKeys.HOME_SHELL) },
+                onLongClick = { viewModel.sendShellCommand(RemoteKeys.HOME_SHELL) },
                 modifier = Modifier.size(60.dp),
             )
             RemoteButton(
                 icon = FontAwesomeIcons.Solid.Bars,
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_MENU) },
+                onLongClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_MENU, longPress = true) },
                 modifier = Modifier.size(60.dp),
             )
         }
@@ -364,12 +391,24 @@ fun RemoteControlInterface(viewModel: RemoteViewModel) {
                 icon = FontAwesomeIcons.Solid.VolumeDown,
                 label = "-",
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_VOLUME_DOWN) },
+                onLongClick = {
+                    viewModel.sendKeyEvent(
+                        RemoteKeys.KEY_VOLUME_DOWN,
+                        longPress = true
+                    )
+                },
                 modifier = Modifier.size(width = 100.dp, height = 50.dp),
             )
             VolumeButton(
                 icon = FontAwesomeIcons.Solid.VolumeUp,
                 label = "+",
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_VOLUME_UP) },
+                onLongClick = {
+                    viewModel.sendKeyEvent(
+                        RemoteKeys.KEY_VOLUME_UP,
+                        longPress = true
+                    )
+                },
                 modifier = Modifier.size(width = 100.dp, height = 50.dp),
             )
         }
@@ -381,6 +420,7 @@ fun RemoteButton(
     icon: ImageVector? = null,
     text: String? = null,
     onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     backgroundColor: Color = RemoteButtonColors.background,
     contentColor: Color = RemoteButtonColors.foreground,
@@ -392,10 +432,13 @@ fun RemoteButton(
         modifier = modifier
             .clip(CircleShape)
             .background(backgroundColor)
-            .clickable {
-                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                onClick()
-            }
+            .combinedClickable(
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onClick()
+                },
+                onLongClick = onLongClick
+            )
             .border(1.dp, borderColor, CircleShape),
         contentAlignment = Alignment.Center
     ) {
@@ -422,6 +465,7 @@ fun VolumeButton(
     icon: ImageVector,
     label: String,
     onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
     backgroundColor: Color = RemoteButtonColors.background,
     contentColor: Color = RemoteButtonColors.foreground,
@@ -433,10 +477,13 @@ fun VolumeButton(
         modifier = modifier
             .clip(RoundedCornerShape(14.dp))
             .background(backgroundColor)
-            .clickable {
-                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                onClick()
-            }
+            .combinedClickable(
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onClick()
+                },
+                onLongClick = onLongClick
+            )
             .border(1.dp, borderColor, RoundedCornerShape(14.dp)),
         contentAlignment = Alignment.Center
     ) {

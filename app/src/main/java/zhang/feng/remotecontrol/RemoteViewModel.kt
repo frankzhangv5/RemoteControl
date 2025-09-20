@@ -87,7 +87,7 @@ class RemoteViewModel(private val context: Context) : ViewModel() {
         }
     }
 
-    fun sendKeyEvent(keyCode: Int) {
+    fun sendKeyEvent(keyCode: Int, longPress: Boolean = false) {
         if (!_uiState.value.isConnected) {
             _uiState.value = _uiState.value.copy(
                 errorMessage = "Not connected to device"
@@ -97,7 +97,8 @@ class RemoteViewModel(private val context: Context) : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val success = adbManager.sendKeyEvent(_uiState.value.connectedDevice!!, keyCode)
+                val success =
+                    adbManager.sendKeyEvent(_uiState.value.connectedDevice!!, keyCode, longPress)
                 if (!success) {
                     _uiState.value = _uiState.value.copy(
                         errorMessage = "Failed to send key event"

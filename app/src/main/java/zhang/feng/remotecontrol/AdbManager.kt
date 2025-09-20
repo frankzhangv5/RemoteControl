@@ -104,9 +104,18 @@ class AdbManager(private val context: Context) {
         }
 
     // Send key event
-    suspend fun sendKeyEvent(deviceIp: String, keyCode: Int): Boolean {
-        Log.d(TAG, "sendKeyEvent called: deviceIp=$deviceIp, keyCode=$keyCode")
-        return sendShellCommand(deviceIp, "input keyevent $keyCode")
+    suspend fun sendKeyEvent(deviceIp: String, keyCode: Int, longPress: Boolean = false): Boolean {
+        Log.d(
+            TAG,
+            "sendKeyEvent called: deviceIp=$deviceIp, keyCode=$keyCode, longPress=$longPress"
+        )
+        val command = if (longPress) {
+            // 长按事件用两次 keyevent 或自定义 shell 命令
+            "input keyevent --longpress $keyCode"
+        } else {
+            "input keyevent $keyCode"
+        }
+        return sendShellCommand(deviceIp, command)
     }
 
     // Disconnect all connections
