@@ -41,6 +41,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -385,11 +387,15 @@ fun RemoteButton(
     borderColor: Color = RemoteButtonColors.border,
     textColor: Color = RemoteButtonColors.text
 ) {
+    val haptic = LocalHapticFeedback.current
     Box(
         modifier = modifier
             .clip(CircleShape)
             .background(backgroundColor)
-            .clickable { onClick() }
+            .clickable {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onClick()
+            }
             .border(1.dp, borderColor, CircleShape),
         contentAlignment = Alignment.Center
     ) {
@@ -422,11 +428,15 @@ fun VolumeButton(
     borderColor: Color = RemoteButtonColors.border,
     textColor: Color = RemoteButtonColors.text
 ) {
+    val haptic = LocalHapticFeedback.current
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(14.dp))
             .background(backgroundColor)
-            .clickable { onClick() }
+            .clickable {
+                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                onClick()
+            }
             .border(1.dp, borderColor, RoundedCornerShape(14.dp)),
         contentAlignment = Alignment.Center
     ) {
