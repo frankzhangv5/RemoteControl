@@ -58,6 +58,7 @@ import compose.icons.fontawesomeicons.solid.AngleRight
 import compose.icons.fontawesomeicons.solid.AngleUp
 import compose.icons.fontawesomeicons.solid.ArrowRight
 import compose.icons.fontawesomeicons.solid.Bars
+import compose.icons.fontawesomeicons.solid.Code
 import compose.icons.fontawesomeicons.solid.Home
 import compose.icons.fontawesomeicons.solid.PowerOff
 import compose.icons.fontawesomeicons.solid.Tv
@@ -70,13 +71,10 @@ import zhang.feng.remotecontrol.RemoteUiState
 import zhang.feng.remotecontrol.RemoteViewModel
 
 object RemoteButtonColors {
-    val background: Color @Composable get() = MaterialTheme.colorScheme.primaryContainer
-    val foreground: Color @Composable get() = MaterialTheme.colorScheme.onPrimaryContainer
+    val background: Color @Composable get() = MaterialTheme.colorScheme.primary
+    val foreground: Color @Composable get() = MaterialTheme.colorScheme.onPrimary
     val border: Color @Composable get() = MaterialTheme.colorScheme.outline
-    val text: Color @Composable get() = MaterialTheme.colorScheme.onPrimaryContainer
-    val accentRed: Color @Composable get() = MaterialTheme.colorScheme.errorContainer
-    val accentGreen: Color @Composable get() = MaterialTheme.colorScheme.tertiaryContainer
-    val accentBlue: Color @Composable get() = MaterialTheme.colorScheme.secondaryContainer
+    val text: Color @Composable get() = MaterialTheme.colorScheme.onPrimary
 }
 
 @Composable
@@ -113,18 +111,19 @@ fun TopStatusBar(uiState: RemoteUiState, viewModel: RemoteViewModel, context: Co
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 64.dp, vertical = 32.dp)
+            .height(48.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(vertical = 6.dp, horizontal = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                FontAwesomeIcons.Solid.Tv,
+                FontAwesomeIcons.Solid.Code,
                 contentDescription = "TV device",
                 tint = RemoteButtonColors.background,
                 modifier = Modifier.size(24.dp),
@@ -149,8 +148,6 @@ fun TopStatusBar(uiState: RemoteUiState, viewModel: RemoteViewModel, context: Co
                         Icons.Default.Close,
                         contentDescription = stringResource(id = R.string.disconnect)
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(stringResource(id = R.string.disconnect))
                 }
             }
         }
@@ -166,7 +163,7 @@ fun DeviceScanInterface(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -239,7 +236,7 @@ fun DeviceItem(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp)
+            .padding(vertical = 4.dp, horizontal = 24.dp)
             .clickable(enabled = !isConnecting) { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
@@ -256,7 +253,7 @@ fun DeviceItem(
                 tint = RemoteButtonColors.foreground,
                 modifier = Modifier.size(20.dp),
             )
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(32.dp))
             Text(
                 text = ipAddress,
                 fontSize = 16.sp,
@@ -294,7 +291,7 @@ fun RemoteControlInterface(viewModel: RemoteViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // First row: Power off, Mute
-        Row(horizontalArrangement = Arrangement.spacedBy(96.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(80.dp)) {
             RemoteButton(
                 icon = FontAwesomeIcons.Solid.PowerOff, // Power off
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_POWER) },
@@ -434,7 +431,7 @@ fun RemoteButton(
             .background(backgroundColor)
             .combinedClickable(
                 onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
                     onClick()
                 },
                 onLongClick = onLongClick
@@ -479,7 +476,7 @@ fun VolumeButton(
             .background(backgroundColor)
             .combinedClickable(
                 onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    haptic.performHapticFeedback(HapticFeedbackType.Confirm)
                     onClick()
                 },
                 onLongClick = onLongClick
