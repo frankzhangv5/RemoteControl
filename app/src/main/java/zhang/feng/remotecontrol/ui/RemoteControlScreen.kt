@@ -58,6 +58,7 @@ import compose.icons.fontawesomeicons.solid.AngleRight
 import compose.icons.fontawesomeicons.solid.AngleUp
 import compose.icons.fontawesomeicons.solid.ArrowRight
 import compose.icons.fontawesomeicons.solid.Bars
+import compose.icons.fontawesomeicons.solid.CaretLeft
 import compose.icons.fontawesomeicons.solid.Code
 import compose.icons.fontawesomeicons.solid.Home
 import compose.icons.fontawesomeicons.solid.PowerOff
@@ -291,7 +292,7 @@ fun RemoteControlInterface(viewModel: RemoteViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // First row: Power off, Mute
-        Row(horizontalArrangement = Arrangement.spacedBy(80.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(128.dp)) {
             RemoteButton(
                 icon = FontAwesomeIcons.Solid.PowerOff, // Power off
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_POWER) },
@@ -362,7 +363,7 @@ fun RemoteControlInterface(viewModel: RemoteViewModel) {
         // Third row: Back, Home, Menu
         Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
             RemoteButton(
-                icon = FontAwesomeIcons.Solid.AngleLeft,
+                icon = FontAwesomeIcons.Solid.CaretLeft,
                 onClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_BACK) },
                 onLongClick = { viewModel.sendKeyEvent(RemoteKeys.KEY_BACK, longPress = true) },
                 modifier = Modifier.size(60.dp),
